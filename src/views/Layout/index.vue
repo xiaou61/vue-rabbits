@@ -17,6 +17,7 @@ onMounted(()=>categoryStore.getCategory())
   <LayoutNav/>
   <LayoutHeader/>
 <!--  二级路由出口-->
+<!--  添加key 破坏复用机制-->
   <RouterView/>
   <LayoutFooter/>
 
