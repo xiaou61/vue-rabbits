@@ -7,6 +7,7 @@ import Layout from '@/views/Layout/index.vue'
 import Home from '@/views/Home/index.vue'
 import Category from '@/views/Category/index.vue'
 import Subcategory from '@/views/SubCategory/index.vue'
+import Detail from '@/views/Detail/index.vue'
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -27,6 +28,10 @@ const router = createRouter({
                 {
                     path: 'category/sub/:id',
                     component: Subcategory
+                },
+                {
+                    path:'detail/:id',
+                    component:Detail
                 }
             ]
         },
@@ -35,7 +40,7 @@ const router = createRouter({
             component: Login
         }
     ],
-    //路由滚动行为东芝
+    //路由滚动行为
     scrollBehavior(){
         return{
             top:0
