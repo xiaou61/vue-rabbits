@@ -30,8 +30,8 @@ const router = createRouter({
                     component: Subcategory
                 },
                 {
-                    path:'detail/:id',
-                    component:Detail
+                    path: 'detail/:id',
+                    component: Detail
                 }
             ]
         },
