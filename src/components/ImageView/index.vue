@@ -17,7 +17,6 @@ defineProps({
   "https://yanxuan-item.nosdn.127.net/f93243224dc37674dfca5874fe089c60.jpg",
   "https://yanxuan-item.nosdn.127.net/f881cfe7de9a576aaeea6ee0d1d24823.jpg"
 ]*/
-
 //小图切换大图显示
 const activeIndex = ref(0)
 const enterhandler = (i) => {
@@ -84,7 +83,7 @@ watch([elementX, elementY], () => {
     <!-- 放大镜大图 -->
     <div class="large" :style="  [
       {
-        backgroundImage: `url(${imageList[0]})`,
+        backgroundImage: `url(${imageList[activeIndex]})`,
         backgroundPositionX: `${postitionX}px`,
         backgroundPositionY: `${postitionY}px`,
       },
