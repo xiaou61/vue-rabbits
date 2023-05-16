@@ -3,15 +3,20 @@
 
 //准备表单对象
 import {ref} from "vue";
-import {loginApi} from "@/apis/user";
 import {ElMessage} from "element-plus";
 import 'element-plus/theme-chalk/el-message.css'
 import {useRouter} from "vue-router";
 
+
+import {useUserStore} from "@/stores/user";
+
+
+const userStore = useUserStore();
+
 const router = useRouter();
 const form = ref({
-  account: '',
-  password: '',
+  account: '18610848230',
+  password: '123456',
   agree: true
 })
 //准备规则对象
@@ -48,10 +53,9 @@ const doLogin = () => {
     //valid所有表单都通过检验，才是true
     //以valid作为判断条件 如果通过校验，才执行登录逻辑
     if (valid) {
-      //去登录
-      const res = await loginApi({account, password})
-      console.log(res)
 
+      //去登录
+     await userStore.getUserInfo({account, password})
       //提示用户
       ElMessage({type: 'success', message: '登录成功'})
 
