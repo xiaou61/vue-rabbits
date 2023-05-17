@@ -34,6 +34,12 @@ export const useCartStore = defineStore('cart', () => {
         item.selected=selected
     }
 
+    //全选功能
+    const allCheck = (selected) => {
+      cartList.value.forEach(item=>item.selected=selected)
+    }
+
+
         //计算属性
         //a为每一次累加完以后都会交给a  c为每一项
         //1.总的数量 所有的count和
@@ -41,13 +47,20 @@ export const useCartStore = defineStore('cart', () => {
         //2.总价   所有的count*price之和
         const allPrice = computed(() => cartList.value.reduce((a, c) => a + c.count * c.price, 0))
 
+
+
+
+    //是否全选
+    const isAll=computed(()=>cartList.value.every((item)=>item.selected))
         return {
             cartList,
             addCart,
             delCart,
             allCount,
             allPrice,
-            singleCheck
+            singleCheck,
+            isAll,
+            allCheck
         }
     },
     {
