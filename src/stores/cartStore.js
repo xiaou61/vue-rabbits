@@ -28,16 +28,16 @@ export const useCartStore = defineStore('cart', () => {
         }
 
         //单选功能
-    const singleCheck = (skuId,selected) => {
-      //通过skuId找到要修改的哪一项，然后把他的selected字段修改
-        const item = cartList.value.find((item)=>item.skuId===skuId);
-        item.selected=selected
-    }
+        const singleCheck = (skuId, selected) => {
+            //通过skuId找到要修改的哪一项，然后把他的selected字段修改
+            const item = cartList.value.find((item) => item.skuId === skuId);
+            item.selected = selected
+        }
 
-    //全选功能
-    const allCheck = (selected) => {
-      cartList.value.forEach(item=>item.selected=selected)
-    }
+        //全选功能
+        const allCheck = (selected) => {
+            cartList.value.forEach(item => item.selected = selected)
+        }
 
 
         //计算属性
@@ -48,10 +48,13 @@ export const useCartStore = defineStore('cart', () => {
         const allPrice = computed(() => cartList.value.reduce((a, c) => a + c.count * c.price, 0))
 
 
+        //3.已选择数量
+        const selectedCount = computed(() => cartList.value.filter(item => item.selected).reduce((a, c) => a + c.count, 0))
+        //4.已选择商品价钱合计
+        const selectedPrice = computed(() => cartList.value.filter(item => item.selected).reduce((a, c) => a + c.count * c.price, 0))
 
-
-    //是否全选
-    const isAll=computed(()=>cartList.value.every((item)=>item.selected))
+        //是否全选
+        const isAll = computed(() => cartList.value.every((item) => item.selected))
         return {
             cartList,
             addCart,
@@ -60,7 +63,9 @@ export const useCartStore = defineStore('cart', () => {
             allPrice,
             singleCheck,
             isAll,
-            allCheck
+            allCheck,
+            selectedCount,
+            selectedPrice
         }
     },
     {
