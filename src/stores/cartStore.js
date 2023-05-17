@@ -5,6 +5,7 @@ import {useUserStore} from "@/stores/userStore";
 import {insertCartAPI} from "@/apis/cart";
 import {findNewCartListAPI} from "@/apis/cart";
 import {delCartAPI} from "@/apis/cart";
+
 export const useCartStore = defineStore('cart', () => {
         const userStore = useUserStore();
         const isLogin = computed(() => userStore.userInfo.token)
@@ -15,21 +16,20 @@ export const useCartStore = defineStore('cart', () => {
         const updateNewList = async () => {
             const res = await findNewCartListAPI();
             //覆盖本地购物车列表
-            cartList.value=res.result
+            cartList.value = res.result
         }
-
-    //获取最新购物车列表action
-
-
 
 
         //定义action
+
+
+        //添加购物车
         const addCart = async (goods) => {
-        const {skuId,count}=goods
+            const {skuId, count} = goods
 
             if (isLogin.value) {
                 //登录之后的加入购物车逻辑
-                await insertCartAPI({skuId,count})
+                await insertCartAPI({skuId, count})
                 updateNewList()
 
 
@@ -53,16 +53,23 @@ export const useCartStore = defineStore('cart', () => {
         //删除购物车
         const delCart = async (skuId) => {
 
-            if (isLogin.value){
+            if (isLogin.value) {
                 await delCartAPI([skuId])
                 updateNewList()
-            }else {
+            } else {
                 //思路 找到要删除项的下标值--splice
                 //使用数组的过滤方法--filter
                 const index = cartList.value.findIndex((item) => skuId === item.skuId);
                 cartList.value.splice(index, 1)
             }
         }
+
+
+        //清除购物车
+        const clearCart = () => {
+            cartList.value = []
+        }
+
 
         //单选功能
         const singleCheck = (skuId, selected) => {
@@ -102,7 +109,8 @@ export const useCartStore = defineStore('cart', () => {
             isAll,
             allCheck,
             selectedCount,
-            selectedPrice
+            selectedPrice,
+            clearCart
         }
     },
     {
