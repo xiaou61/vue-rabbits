@@ -1,6 +1,6 @@
 import {ElMessage} from "element-plus";
 import 'element-plus/theme-chalk/el-message.css'
-
+import {useUserStore} from "@/stores/user";
 //axios基础的封装
 import axios from "axios";
 
@@ -12,6 +12,13 @@ const httpInstance = axios.create({
 
 
 httpInstance.interceptors.request.use(config => {
+    //pinia里获取token数据
+    const userStore = useUserStore()
+    //按照后端要求拼接数据
+    const token = userStore.userInfo.token;
+    if (token) {
+        config.headers.Authorization = `Bearer ${token}`
+    }
     return config
 }, e => Promise.reject(e))
 
