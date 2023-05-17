@@ -1,24 +1,43 @@
 //封装购物车模块
 import {defineStore} from "pinia";
 import {computed, ref} from "vue";
-
+import {useUserStore} from "@/stores/user";
+import {insertCartAPI} from "@/apis/cart";
+import {findNewCartListAPI} from "@/apis/cart";
 export const useCartStore = defineStore('cart', () => {
+        const userStore = useUserStore();
+        const isLogin = computed(() => userStore.userInfo.token)
         //定义state
         const cartList = ref([])
         //定义action
-        const addCart = (goods) => {
-            //通过匹配传递过来的商品对象中的skuid能不能再cartlist中找到
-            //添加过 count+1
-            const item = cartList.value.find((item) => goods.skuId === item.skuId)
-            if (item) {
-                //找到了
-                item.count++
-            } else {
-                //没有添加过--直接push
-                cartList.value.push(goods)
-            }
+        const addCart = async (goods) => {
+        const {skuId,count}=goods
 
+            if (isLogin.value) {
+                //登录之后的加入购物车逻辑
+                await insertCartAPI({skuId,count})
+
+                const res = await findNewCartListAPI();
+                //覆盖本地购物车列表
+                cartList.value=res.result
+
+            } else {
+                //本地逻辑
+                //通过匹配传递过来的商品对象中的skuid能不能再cartlist中找到
+                //添加过 count+1
+                const item = cartList.value.find((item) => goods.skuId === item.skuId)
+                if (item) {
+                    //找到了
+                    item.count++
+                } else {
+                    //没有添加过--直接push
+                    cartList.value.push(goods)
+                }
+
+            }
         }
+
+
         //删除购物车
         const delCart = (skuId) => {
             //思路 找到要删除项的下标值--splice
