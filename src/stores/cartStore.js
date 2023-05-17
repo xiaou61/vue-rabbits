@@ -27,6 +27,12 @@ export const useCartStore = defineStore('cart', () => {
             cartList.value.splice(index, 1)
         }
 
+        //单选功能
+    const singleCheck = (skuId,selected) => {
+      //通过skuId找到要修改的哪一项，然后把他的selected字段修改
+        const item = cartList.value.find((item)=>item.skuId===skuId);
+        item.selected=selected
+    }
 
         //计算属性
         //a为每一次累加完以后都会交给a  c为每一项
@@ -40,7 +46,8 @@ export const useCartStore = defineStore('cart', () => {
             addCart,
             delCart,
             allCount,
-            allPrice
+            allPrice,
+            singleCheck
         }
     },
     {
