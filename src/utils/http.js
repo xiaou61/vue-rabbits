@@ -1,6 +1,6 @@
 import {ElMessage} from "element-plus";
 import 'element-plus/theme-chalk/el-message.css'
-import {useUserStore} from "@/stores/user";
+import {useUserStore} from "@/stores/userStore";
 import Router from "@/router";
 //axios基础的封装
 import axios from "axios";
