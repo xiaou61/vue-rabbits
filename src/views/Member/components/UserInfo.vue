@@ -1,38 +1,54 @@
 <script setup>
-const userStore = {}
+import { getLikeListAPI } from '@/apis/user'
+import { useUserStore } from '@/stores/userStore'
+import { onMounted, ref } from 'vue'
+import GoodsItem from '@/views/Home/components/GoodsItem.vue'
+const userStore = useUserStore()
+
+
+const likeList = ref([])
+
+const getLikeList = async () => {
+  const res = await getLikeListAPI({ limit: 4 })
+  likeList.value = res.result
+}
+
+onMounted(() => getLikeList())
+
+
 </script>
 
 <template>
-  <div className="home-overview">
+  <div class="home-overview">
     <!-- 用户信息 -->
-    <div className="user-meta">
-      <div className="avatar">
-        <img :src="userStore.userInfo?.avatar"/>
+    <div class="user-meta">
+      <div class="avatar">
+        <img :src="userStore.userInfo?.avatar" />
       </div>
       <h4>{{ userStore.userInfo?.account }}</h4>
     </div>
-    <div className="item">
+    <div class="item">
       <a href="javascript:;">
-        <span className="iconfont icon-hy"></span>
+        <span class="iconfont icon-hy"></span>
         <p>会员中心</p>
       </a>
       <a href="javascript:;">
-        <span className="iconfont icon-aq"></span>
+        <span class="iconfont icon-aq"></span>
         <p>安全设置</p>
       </a>
       <a href="javascript:;">
-        <span className="iconfont icon-dw"></span>
+        <span class="iconfont icon-dw"></span>
         <p>地址管理</p>
       </a>
     </div>
   </div>
-  <div className="like-container">
-    <div className="home-panel">
-      <div className="header">
+  <div class="like-container">
+    <div class="home-panel">
+      <div class="header">
         <h4 data-v-bcb266e0="">猜你喜欢</h4>
       </div>
-      <div className="goods-list">
-        <!-- <GoodsItem v-for="good in likeList" :key="good.id" :good="good" /> -->
+      <div class="goods-list">
+        <GoodsItem v-for="good in likeList" :key="good.id" :goods="good" />
       </div>
     </div>
   </div>
